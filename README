@@ -1,4 +1,4 @@
-Redis-Tools is a collection of utilities for gathering information from running Redis instances, useful for debugging, testing, and more.
+Redis-Tools is a collection of utilities for gathering information from running Redis instances, useful for gathering statistics on running Redis instances, load testing, and more.
 
 -----
 
