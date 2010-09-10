@@ -1,0 +1,43 @@
+Redis-Tools is a collection of utilities for gathering information from running Redis instances, useful for debugging, testing, and more.
+
+-----
+
+To Install:
+
+  % make
+
+Just Redis-Stat:
+
+  % make redis-stat
+
+Just Redis-Load:
+
+  % make redis-load
+
+Running:
+
+  % ./redis-stat
+
+ ------- data ------ ------------ load ----------------------------- - childs -
+ keys      used-mem  clients blpops  requests            connections
+
+Running:
+
+  % ./redis-load
+
+Example Output:
+
+PRNG seed is: 4190317218 - use the 'seed' option to reproduce the same sequence
+====== Report ======
+  10006 requests completed in 0.35 seconds
+  50 parallel clients
+  1 min bytes payload
+  64 max bytes payload
+  keep alive: 1
+
+2.45% <= 0 milliseconds
+80.61% <= 1 milliseconds
+99.02% <= 2 milliseconds
+99.98% <= 3 milliseconds
+100.00% <= 4 milliseconds
+28507.12 requests per second
