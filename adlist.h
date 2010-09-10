@@ -1,6 +1,6 @@
 /* adlist.h - A generic doubly linked list implementation
  *
- * Copyright (c) 2006-2009, Salvatore Sanfilippo <antirez at gmail dot com>
+ * Copyright (c) 2006-2010, Salvatore Sanfilippo <antirez at gmail dot com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,7 @@ list *listCreate(void);
 void listRelease(list *list);
 list *listAddNodeHead(list *list, void *value);
 list *listAddNodeTail(list *list, void *value);
+list *listInsertNode(list *list, listNode *old_node, void *value, int after);
 void listDelNode(list *list, listNode *node);
 listIter *listGetIterator(list *list, int direction);
 listNode *listNext(listIter *iter);

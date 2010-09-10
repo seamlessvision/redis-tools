@@ -1,6 +1,6 @@
 /* zmalloc - total amount of allocated memory aware version of malloc()
  *
- * Copyright (c) 2006-2009, Salvatore Sanfilippo <antirez at gmail dot com>
+ * Copyright (c) 2009-2010, Salvatore Sanfilippo <antirez at gmail dot com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,10 +32,12 @@
 #define _ZMALLOC_H
 
 void *zmalloc(size_t size);
+void *zcalloc(size_t size);
 void *zrealloc(void *ptr, size_t size);
 void zfree(void *ptr);
 char *zstrdup(const char *s);
 size_t zmalloc_used_memory(void);
 void zmalloc_enable_thread_safeness(void);
+float zmalloc_get_fragmentation_ratio(void);
 
 #endif /* _ZMALLOC_H */

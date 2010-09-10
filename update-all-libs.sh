@@ -1,10 +1,22 @@
 #!/bin/bash
 
-cp -f ~/hack/redis/adlist.[ch] .
-cp -f ~/hack/redis/ae.[ch] .
-cp -f ~/hack/redis/ae_*.c .
-cp -f ~/hack/redis/anet.[ch] .
-cp -f ~/hack/redis/config.h .
-cp -f ~/hack/redis/fmacros.h .
-cp -f ~/hack/redis/sds.[ch] .
-cp -f ~/hack/redis/zmalloc.[ch] .
+if [ $# -ne 1 ]
+then
+  echo "Please specify your Project root."
+  exit 1
+fi
+
+if [ ! -d $1 ]
+then
+  echo "Directory does not exist."
+  exit 1
+fi
+
+cp -f $1/redis/src/adlist.[ch] .
+cp -f $1/redis/src/ae.[ch] .
+cp -f $1/redis/src/ae_*.c .
+cp -f $1/redis/src/anet.[ch] .
+cp -f $1/redis/src/config.h .
+cp -f $1/redis/src/fmacros.h .
+cp -f $1/redis/src/sds.[ch] .
+cp -f $1/redis/src/zmalloc.[ch] .
