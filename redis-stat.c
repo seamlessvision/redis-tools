@@ -36,6 +36,7 @@
 static struct config {
     char *hostip;
     int hostport;
+    char *hostauth;
     int delay;
     int stat; /* The kind of output to produce: STAT_* */
     int samplesize;
@@ -66,7 +67,8 @@ void usage(char *wrong) {
 "\n"
 "Options:\n"
 " host <hostname>      Server hostname (default 127.0.0.1)\n"
-" port <hostname>      Server port (default 6379)\n"
+" port <port>          Server port (default 6379)\n"
+" auth <password>      Server password\n"
 " delay <milliseconds> Delay between requests (default: 1000 ms, 1 second).\n"
 " samplesize <keys>    Number of keys to sample for 'vmpage' stat.\n"
 " logscale             User power-of-two logarithmic scale in graphs.\n"
@@ -91,6 +93,8 @@ static int parseOptions(int argc, char **argv) {
         } else if (!strcmp(argv[i],"port") && !lastarg) {
             config.hostport = atoi(argv[i+1]);
             i++;
+        } else if (!strcmp(argv[i],"auth") && !lastarg) {
+            config.hostauth = strdup(argv[++i]);
         } else if (!strcmp(argv[i],"delay") && !lastarg) {
             config.delay = atoi(argv[i+1]);
             i++;
@@ -538,7 +542,6 @@ static void samplesToGraph(size_t *samples, int scaletype) {
 
 static void ondiskSize(int fd) {
     size_t *samples;
-
     samples = sampleDataset(fd,SAMPLE_SERIALIZEDLEN);
     if (config.logscale) {
         samplesToGraph(samples, SCALE_POWEROFTWO);
@@ -568,6 +571,7 @@ int main(int argc, char **argv) {
 
     config.hostip = "127.0.0.1";
     config.hostport = 6379;
+    config.hostauth = NULL;
     config.stat = STAT_OVERVIEW;
     config.delay = 1000;
     config.samplesize = 10000;
@@ -580,6 +584,15 @@ int main(int argc, char **argv) {
         printf("Error connecting to Redis server: %s\n", r->reply);
         freeReplyObject(r);
         exit(1);
+    }
+
+    if(NULL != config.hostauth) {
+        r = redisCommand(fd,"AUTH %s", config.hostauth);
+        if(r->type == REDIS_REPLY_ERROR) {
+            printf("ERROR: %s\n", r->reply);
+            freeReplyObject(r);
+            exit(1);
+        }
     }
 
     switch(config.stat) {
